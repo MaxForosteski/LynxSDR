@@ -28,7 +28,7 @@ Sistema completo de agente SDR (Sales Development Representative) automatizado c
 - Conta AWS (para Lambda)
 - Conta Supabase
 - API Keys:
-  - Google Gemini API
+  - OpenAI API
   - Pipefy API
   - Cal.com / Calendly API
 
@@ -67,8 +67,9 @@ Crie `.env` baseado em `.env.example`:
 # Database
 DATABASE_URL=postgresql://user:pass@db.supabase.co:5432/postgres
 
-# Google Gemini
-GEMINI_API_KEY=your_gemini_api_key
+# OpenAI
+OPENAI_API_KEY=sk-proj-your_openai_api_key
+OPENAI_MODEL=gpt-4o-mini
 
 # Pipefy
 PIPEFY_API_KEY=your_pipefy_api_key
@@ -172,8 +173,8 @@ serverless deploy
                      │                              │              │
                      ▼                              ▼              ▼
               ┌──────────┐                   ┌──────────┐   ┌──────────┐
-              │  Gemini  │                   │  Pipefy  │   │  Cal.com │
-              │    AI    │                   │   API    │   │   API    │
+              │  OpenAI  │                   │  Pipefy  │   │  Cal.com │
+              │   API    │                   │   API    │   │   API    │
               └──────────┘                   └──────────┘   └──────────┘
                      
                                     ┌──────────────┐

@@ -298,7 +298,7 @@ provider:
 - **AWS Lambda**: ~$5-10/mês
 - **Supabase**: Grátis (até 500MB)
 - **Vercel**: Grátis (hobby plan)
-- **Gemini API**: Grátis (até certo limite)
+- **OpenAI API**: Grátis (até certo limite)
 - **Cal.com**: Grátis (plano básico)
 - **Pipefy**: A partir de $30/mês
 
