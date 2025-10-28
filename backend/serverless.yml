@@ -1,0 +1,68 @@
+service: sdr-agent-api
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 30
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    DATABASE_URL: ${env:DATABASE_URL}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    OPENAI_MODEL: ${env:OPENAI_MODEL, 'gpt-4-turbo-preview'}
+    PIPEFY_API_KEY: ${env:PIPEFY_API_KEY}
+    PIPEFY_PIPE_ID: ${env:PIPEFY_PIPE_ID}
+    PIPEFY_PHASE_ID: ${env:PIPEFY_PHASE_ID}
+    CALENDAR_PROVIDER: ${env:CALENDAR_PROVIDER}
+    CALENDAR_API_KEY: ${env:CALENDAR_API_KEY}
+    CALENDAR_API_URL: ${env:CALENDAR_API_URL}
+    CALENDAR_EVENT_TYPE_ID: ${env:CALENDAR_EVENT_TYPE_ID}
+    CALENDAR_TIMEZONE: ${env:CALENDAR_TIMEZONE}
+    ALLOWED_ORIGINS: ${env:ALLOWED_ORIGINS}
+    SESSION_TIMEOUT: ${env:SESSION_TIMEOUT}
+    PRODUCT_NAME: ${env:PRODUCT_NAME}
+    PRODUCT_DESCRIPTION: ${env:PRODUCT_DESCRIPTION}
+    COMPANY_NAME: ${env:COMPANY_NAME}
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: '*'
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /
+          method: ANY
+    
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    host: 0.0.0.0
+
+package:
+  exclude:
+    - node_modules/**
+    - src/**
+    - .git/**
+    - .env
+    - README.md
+  include:
+    - dist/**
